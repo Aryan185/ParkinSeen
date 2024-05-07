@@ -1,0 +1,9 @@
+flask==3.0.3
+opencv-python==4.9.0
+mediapipe==0.10.13
+tensorflow==2.16.1
+crepe==0.0.14
+librosa==0.10.2
+xgboost==2.0.3
+pandas==2.2.2
+scikit-learn==1.4.2
