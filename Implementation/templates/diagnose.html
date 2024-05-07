@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .nav-menu li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .nav-menu li:last-child {
+            margin-right: 0;
+        }
+
+        .nav-menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto 20px; /* Adjusted margin-top */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        p {
+            margin: 0 0 20px;
+        }
+
+        .result-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-steps {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-steps h2 {
+            margin-top: 0;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .next-steps p {
+            font-size: 18px;
+        }
+
+        .next-steps ul {
+            padding-left: 20px;
+        }
+
+        .next-steps .fun {
+            color: #007bff;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Parkinson's Disease Test</h1>
+        <ul class="nav-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/help">Help</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="result-container">
+            <h1>Diagnosis Result</h1>
+            <p>{{ result }}</p>
+        </div>
+        <div class="next-steps">
+            <h2>What Next?</h2>
+            {% if result == "You are diagnosed with Parkinson's" %}
+            <p>If you are diagnosed with Parkinson's Disease, here are some next steps:</p>
+            <ul>
+                <li>Consult a neurologist for further evaluation and treatment.</li>
+                <li>Discuss treatment options such as medications, physical therapy, and lifestyle changes.</li>
+                <li>Consider joining a support group to connect with others facing similar challenges.</li>
+                <li>Stay informed about the latest research and advancements in Parkinson's treatment.</li>
+            </ul>
+            {% else %}
+            <p>If you are not diagnosed with Parkinson's Disease, you're in luck!</p>
+            <p>Here are some things you can do to maintain your brain health and well-being:</p>
+            <ul>
+                <li>Stay physically active with regular exercise.</li>
+                <li>Eat a balanced diet rich in fruits, vegetables, and whole grains.</li>
+                <li>Stay socially connected with friends and family.</li>
+                <li>Practice stress-reducing techniques such as meditation or yoga.</li>
+            </ul>
+            <p class="fun">Enjoy a healthy and fulfilling life!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

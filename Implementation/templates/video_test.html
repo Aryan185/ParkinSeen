@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Video Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .nav-menu li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .nav-menu li:last-child {
+            margin-right: 0;
+        }
+
+        .nav-menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button[type="submit"] {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        img#video-stream {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-height: 300px; /* Limiting the height */
+        }
+
+        .info-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .info-box h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Parkinson's Disease Test</h1>
+        <ul class="nav-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/help">Help</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <form action="/tasks" method="post">
+            <button class="btn" type="submit" name="rec" value="Start Recording">Start Recording</button>
+            <button class="btn" type="submit" name="rec" value="Stop Recording">Stop Recording</button>
+        </form>
+        <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+        <div class="info-box">
+            <h3>How It Works</h3>
+            <p>When you start recording, this application records video data from your webcam. The stream window displays the recorded video in real-time. Once you stop recording, the video is processed and sent for analysis.</p>
+        </div>
+    </div>
+</body>
+</html>
+
