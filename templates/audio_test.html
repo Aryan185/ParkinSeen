@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parkinson's Disease Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+.navbar {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .nav-menu li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        .nav-menu li:last-child {
+            margin-right: 0;
+        }
+
+        .nav-menu li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 30px;
+        }
+
+        p {
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .visualizer-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100px;
+        }
+
+        .info-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .info-box h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Parkinson's Disease Test</h1>
+        <ul class="nav-menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/help">Help</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h2>Audio Test</h2>
+        <p>Parkinson's disease is a neurodegenerative disorder that affects movement. One of the early signs of Parkinson's disease is changes in speech patterns and voice quality. Audio analysis can be used as a non-invasive method for detecting these changes.</p>
+        <div class="btn-container">
+            <button id="startRecording" class="btn">Start Audio Recording</button>
+            <button id="stopRecording" class="btn" disabled>Stop Audio Recording</button>
+        </div>
+        <div class="visualizer-container">
+            <canvas id="audioVisualizer"></canvas>
+        </div>
+        <div class="info-box">
+            <h3>How It Works</h3>
+            <p>When you start recording, this application captures audio data from your microphone. The visualizer displays the recorded audio waveform in real-time. Once you stop recording, the audio is processed and sent for analysis.</p>
+        </div>
+    </div>
+
+    <script>
+        var canvas = document.getElementById('audioVisualizer');
+        var canvasCtx = canvas.getContext('2d');
+        var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        var analyser = audioCtx.createAnalyser();
+        var dataArray;
+
+        navigator.mediaDevices.getUserMedia({audio: true})
+            .then(function(stream) {
+                handlerFunction(stream);
+            });
+
+        var rec;
+        var audioChunks = [];
+
+        function handlerFunction(stream) {
+            rec = new MediaRecorder(stream);
+            var source = audioCtx.createMediaStreamSource(stream);
+            source.connect(analyser);
+            analyser.fftSize = 2048;
+            var bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+            rec.ondataavailable = function(e) {
+                audioChunks.push(e.data);
+                if (rec.state == "inactive") {
+                    var blob = new Blob(audioChunks, {type: 'audio/wav'});
+                    sendData(blob);
+                }
+            }
+        }
+
+        function sendData(data) {
+            var form = new FormData();
+            form.append('file', data, 'audio_recording.wav');
+            $.ajax({
+                type: 'POST',
+                url: '/save-record',
+                data: form,
+                processData: false,
+                contentType: false
+            }).done(function(data) {
+                console.log(data);
+            });
+        }
+
+        document.getElementById('startRecording').onclick = function() {
+            console.log('Recording started...');
+            this.disabled = true;
+            document.getElementById('stopRecording').disabled = false;
+            audioChunks = [];
+            rec.start();
+            draw();
+        };
+
+        document.getElementById('stopRecording').onclick = function() {
+            console.log('Recording stopped.');
+            document.getElementById('startRecording').disabled = false;
+            this.disabled = true;
+            rec.stop();
+            cancelAnimationFrame(animationId);
+            // After stopping recording, redirect to audio_processing page
+            window.location.href = "/audio_processing";
+        };
+
+        function draw() {
+            animationId = requestAnimationFrame(draw);
+
+            analyser.getByteTimeDomainData(dataArray);
+
+            canvasCtx.fillStyle = '#007bff';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+            canvasCtx.lineWidth = 2;
+            canvasCtx.strokeStyle = '#fff';
+
+            canvasCtx.beginPath();
+
+            var sliceWidth = canvas.width * 1.0 / dataArray.length;
+            var x = 0;
+
+            for(var i = 0; i < dataArray.length; i++) {
+                var v = dataArray[i] / 128.0;
+                var y = v * canvas.height / 2;
+
+                if(i === 0) {
+                    canvasCtx.moveTo(x, y);
+                } else {
+                    canvasCtx.lineTo(x, y);
+                }
+
+                x += sliceWidth;
+            }
+
+            canvasCtx.lineTo(canvas.width, canvas.height / 2);
+            canvasCtx.stroke();
+        }
+    </script>
+</body>
+</html>
