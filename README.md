@@ -10,19 +10,27 @@ The machine learning models are trained on datasets consisting of recordings fro
 
 *  Video Test: The subject spins around in front of a camera, and their left ankle coordinates are tracked using MediaPipe. Frames are marked as having Freezing of Gait (FOG) or not. The dataset used for training consists of recordings of 73 individuals, where FOG is labeled as 1 and no FOG as 0.
 
-Audio Test: The subject is asked to say "aaa" for a few seconds. Vocal biomarkers are extracted using Librosa. The dataset contains recordings of 81 individuals, 40 with PD and 41 healthy.
+*  Audio Test: The subject is asked to say "aaa" for a few seconds. Vocal biomarkers are extracted using Librosa. The dataset contains recordings of 81 individuals, 40 with PD and 41 healthy.
 
-Machine Learning Models: Machine learning models are trained on the collected datasets to classify whether a subject has Parkinson's Disease or not.
+*  Machine Learning Models: Machine learning models are trained on the collected datasets to classify whether a subject has Parkinson's Disease or not.
 
-Flask Web Interface: The project includes a Flask web application that provides an intuitive interface for conducting the tests and viewing the results.
+*  Flask Web Interface: The project includes a Flask web application that provides an intuitive interface for conducting the tests and viewing the results.
 
 ### Requirements:
 
-Python 3.x
-Libraries: Flask, MediaPipe, Librosa, NumPy, pandas, scikit-learn, matplotlib, etc.
+*  Python 3.x
+*  Flask
+*  MediaPipe
+*  Librosa
+*  NumPy
+*  pandas
+*  scikit-learn
+*  matplotlib
 
 ### Usage:
 
-Clone the repository.
-Install dependencies using pip install -r requirements.txt.
-Run the Flask app with python app.py.
+1. Clone the repository.
+```
+git clone https://github.com/your-username/parkinsons-detection.git
+cd parkinsons-detection
+```
