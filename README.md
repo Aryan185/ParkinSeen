@@ -3,6 +3,7 @@
 This project aims to detect Parkinson's Disease (PD) through two types of tests: a video-based test and an audio-based test. The video test involves tracking ankle movement while the subject spins around, and the audio test analyzes vocal biomarkers.
 
 **Video Test**: Subjects spin around in front of a camera while their left ankle coordinates are tracked using MediaPipe. Frames are marked as having Freezing of Gait (FOG) or not.
+
 **Audio Test:** Subjects say "aaa" for a few seconds, and vocal biomarkers are extracted using Librosa.
 The machine learning models are trained on datasets consisting of recordings from PD patients and healthy individuals.
 
