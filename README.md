@@ -30,8 +30,22 @@ The machine learning models are trained on datasets consisting of recordings fro
 
 ### Usage:
 
-1. Clone the repository.
+1. Clone the repository:
 ```
-git clone https://github.com/your-username/parkinsons-detection.git
-cd parkinsons-detection
+git clone https://github.com/Aryan185/ParkinSeen.git
+cd ParkinSeen
 ```
+
+2. Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+3. Run the Flask app:
+```
+python app.py
+```
+
+
+### Contributing
+Contributions and suggestions are welcome! Feel free to submit issues and pull requests.
